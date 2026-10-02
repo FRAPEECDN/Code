@@ -17,7 +17,7 @@ A small but realistic Apache Kafka environment for application development.
 - Host connection: `localhost:9094`
 - Container-to-container connection: `kafka:9092`
 
-Kafka's official Docker documentation currently lists 4.3.1 as a supported release. SCRAM-SHA-256 is used here because it exercises real authentication while keeping the local setup simple. For production, use TLS with SCRAM (SASL_SSL), not SASL_PLAINTEXT.
+SCRAM-SHA-256 is used here because it exercises real authentication while keeping the local setup simple. For production, use TLS with SCRAM (SASL_SSL), not SASL_PLAINTEXT.
 
 ## Start
 
@@ -35,7 +35,7 @@ docker compose exec kafka /opt/kafka/bin/kafka-topics.sh   --bootstrap-server ka
 
 ## Client configuration
 
-Use `config/client.properties` from an application running on the host, changing the bootstrap server to:
+For an application running on the host, use the security settings in `config/client.properties` and set its bootstrap server to:
 
 ```text
 localhost:9094

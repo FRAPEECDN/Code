@@ -1,7 +1,9 @@
 PostgreSQL + pgAdmin Docker Setup
 
+# PostgreSQL + pgAdmin Docker Setup
+
 Included:
-- PostgreSQL 16
+- PostgreSQL 17
 - pgAdmin 4
 - Docker Secrets support
 
