@@ -1,0 +1,26 @@
+dependencies {
+    implementation libs.guava
+    implementation libs.commons.collections
+    implementation libs.eclipse.collections
+    implementation libs.java.tuples
+
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir rootProject.file('shared-java21/src/main/java')
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'com.fp.coding.App'
+}
+

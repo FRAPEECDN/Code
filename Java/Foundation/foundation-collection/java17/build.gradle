@@ -1,0 +1,21 @@
+dependencies {
+    implementation libs.guava
+    implementation libs.commons.collections
+    implementation libs.eclipse.collections
+    implementation libs.java.tuples
+
+}
+
+java {
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+application {
+    mainClass = 'com.fp.coding.App'
+}
+
