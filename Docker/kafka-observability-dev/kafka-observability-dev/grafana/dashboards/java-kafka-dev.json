@@ -1,0 +1,40 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 1,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "JVM Heap Used",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [{"expr": "jvm_memory_used_bytes{area=\"heap\"}", "legendFormat": "{{instance}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Kafka Consumer Records",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [{"expr": "kafka_consumer_records_received_total", "legendFormat": "{{topic}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Processor Records",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [{"expr": "kafka_processor_records_processed_total", "legendFormat": "{{processor}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Processor Failures",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [{"expr": "kafka_processor_records_failed_total", "legendFormat": "{{processor}}"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "Processor Duration",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "targets": [{"expr": "kafka_processor_processing_seconds", "legendFormat": "{{processor}}"}]
+    }
+  ],
+  "schemaVersion": 41,
+  "title": "Java Kafka Development",
+  "uid": "java-kafka-dev"
+}
