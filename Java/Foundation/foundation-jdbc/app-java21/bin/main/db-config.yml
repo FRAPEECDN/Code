@@ -1,0 +1,17 @@
+# Shared by app-java17, app-java21, and app-java25 through their Gradle resource source sets.
+# Keep credentials encrypted; supply the matching passphrase as FOUNDATION_DB_CONFIG_SECRET.
+db:
+  # Name of the application database. The initializer creates it when absent.
+  databaseName: test-jdbc
+  # Existing database used only to issue CREATE DATABASE (must not be the database being created).
+  adminUrl: jdbc:postgresql://localhost:5432/postgres
+  # Application database used by the pooled repository after initialization.
+  url: jdbc:postgresql://localhost:5432/test-jdbc
+  # Base64-encoded random salt shared by both encrypted credential values.
+  salt: g+djl9c4PipFwzZC0/YN+Q==
+  # AES-GCM ciphertext and its own Base64-encoded 12-byte nonce.
+  username: ENC(/wTK1w0xJBxEzojjG3rV0fq0vbrg)
+  usernameNonce: zCOBFiYeFDXKSkG2
+  # Each encrypted value must be paired with the nonce generated with it.
+  password: ENC(f3XpOETJzGwEikEeGcI/d0J9Vg==)
+  passwordNonce: O0t4xs5g/j92TJoD
