@@ -10,10 +10,12 @@ A small but realistic Apache Kafka environment for application development.
 - 2 partitions on `dev-test`
 - SASL/SCRAM-SHA-256 client authentication
 - Kafka ACL authorization
+- The controller listener is plaintext on the private Docker network and is not published to the host
 - Separate `admin` and `dev` users
 - Consumer groups such as `dev-my-app`
 - Persistent Docker volume
 - Automatic topic/user/ACL initialization
+- Admin SCRAM credentials seeded during first KRaft storage formatting
 - Host connection: `localhost:9094`
 - Container-to-container connection: `kafka:9092`
 

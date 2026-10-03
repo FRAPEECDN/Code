@@ -7,7 +7,7 @@ This folder contains Docker Compose environments for local development and testi
 | Folder | Environment | Host ports |
 | --- | --- | --- |
 | [`kafka-dev-docker`](kafka-dev-docker/) | Single-node Kafka in KRaft mode, with SCRAM authentication and ACLs. See the [project README](kafka-dev-docker/README.md). | `9094` |
-| [`kafka-observability-dev/kafka-observability-dev`](kafka-observability-dev/kafka-observability-dev/) | Grafana, Kafka UI, Prometheus, Loki, Tempo, and Grafana Alloy. See the [project README](kafka-observability-dev/kafka-observability-dev/README.md). | `3000`, `8080`, `9090`, `3100`, `3200`, `4317`, `4318`, `12345` |
+| [`kafka-observability-dev/kafka-observability-dev`](kafka-observability-dev/kafka-observability-dev/) | Shared Grafana, Prometheus, Loki, Tempo, and Alloy for local apps; optional Kafka UI. See the [project README](kafka-observability-dev/kafka-observability-dev/README.md). | `3000`, `8080` (optional), `9090`, `3100`, `3200`, `4317`, `4318`, `12345` |
 | [`mongodb-docker-secrets-package`](mongodb-docker-secrets-package/) | MongoDB with Mongo Express. See the [project README](mongodb-docker-secrets-package/README.txt). | `27017`, `8081` |
 | [`postgres-db`](postgres-db/) | PostgreSQL with a file-backed Compose secret. See the [project README](postgres-db/README.txt). | `5432` |
 | [`postgres-db-admin`](postgres-db-admin/) | PostgreSQL with pgAdmin and file-backed Compose secrets. See the [project README](postgres-db-admin/README.txt). | `5432`, `8080` |
@@ -37,9 +37,16 @@ docker compose down
 
 ## Dependencies and Port Conflicts
 
-- Start `kafka-dev-docker` before `kafka-observability-dev`. The observability Compose project connects to the external `kafka-dev_default` network created by the Kafka project.
+- The observability stack works on its own. Start `kafka-dev-docker` first and enable the `kafka` profile only when you also need Kafka UI; that profile joins the stable `kafka-dev_default` network.
 - Several environments use the same host ports: Kafka UI and pgAdmin both use `8080`; Mongo Express and the example Java metrics endpoint use `8081`; both PostgreSQL projects use `5432`. Run conflicting environments separately or change their port mappings.
 - `docker compose down -v` also deletes the environment's persistent data volumes. Use it only when you intend to reset stored data.
+
+To start Kafka and observability together from this folder:
+
+```powershell
+docker compose -f kafka-dev-docker/docker-compose.yml up -d
+docker compose --profile kafka -f kafka-observability-dev/kafka-observability-dev/docker-compose.yml up -d
+```
 
 ## Credentials
 

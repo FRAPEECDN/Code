@@ -1,9 +1,30 @@
 services:
+  kafka-format:
+    image: apache/kafka:4.3.1
+    container_name: kafka-dev-format
+    environment:
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+      - ./config/server-format.properties:/config/server.properties:ro
+    entrypoint: ["/bin/bash", "-ec"]
+    command:
+      - |
+        /opt/kafka/bin/kafka-storage.sh format \
+          --config /config/server.properties \
+          --cluster-id MkU3OEVBNTcwNTJENDM2Qk \
+          --add-scram 'SCRAM-SHA-256=[name=admin,password=admin-secret]' \
+          --ignore-formatted
+    restart: "no"
+
   kafka:
     image: apache/kafka:4.3.1
     container_name: kafka-dev
     hostname: kafka
     restart: unless-stopped
+    depends_on:
+      kafka-format:
+        condition: service_completed_successfully
     ports:
       - "9094:9094"
     environment:
@@ -11,22 +32,22 @@ services:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
 
       # Internal container listener, external host listener, controller listener
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,EXTERNAL://0.0.0.0:9094
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:9094
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:SASL_PLAINTEXT,CONTROLLER:SASL_PLAINTEXT,EXTERNAL:SASL_PLAINTEXT
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:SASL_PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:SASL_PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
 
       # SASL/SCRAM
       KAFKA_SASL_ENABLED_MECHANISMS: SCRAM-SHA-256
       KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: SCRAM-SHA-256
-      KAFKA_SASL_MECHANISM_CONTROLLER_PROTOCOL: SCRAM-SHA-256
 
       # KRaft authorization
       KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
-      KAFKA_SUPER_USERS: User:admin
+      KAFKA_SUPER_USERS: "User:admin;User:ANONYMOUS"
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "false"
 
       # Dev-friendly cluster settings
@@ -45,7 +66,6 @@ services:
 
       # Listener JAAS credentials used for broker/controller/inter-broker auth
       KAFKA_LISTENER_NAME_INTERNAL_SCRAM-SHA-256_SASL_JAAS_CONFIG: org.apache.kafka.common.security.scram.ScramLoginModule required username="admin" password="admin-secret";
-      KAFKA_LISTENER_NAME_CONTROLLER_SCRAM-SHA-256_SASL_JAAS_CONFIG: org.apache.kafka.common.security.scram.ScramLoginModule required username="admin" password="admin-secret";
       KAFKA_LISTENER_NAME_EXTERNAL_SCRAM-SHA-256_SASL_JAAS_CONFIG: org.apache.kafka.common.security.scram.ScramLoginModule required;
 
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
@@ -73,5 +93,10 @@ services:
     entrypoint: ["/bin/bash", "/scripts/init.sh"]
     restart: "no"
 
+networks:
+  default:
+    name: kafka-dev_default
+
 volumes:
   kafka-data:
+    name: kafka-dev_kafka-data

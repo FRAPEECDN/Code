@@ -1,4 +1,13 @@
 services:
+  loki-init:
+    image: alpine:3.22
+    container_name: kafka-dev-loki-init
+    volumes:
+      - loki-data:/loki
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["chown -R 10001:10001 /loki"]
+    restart: "no"
+
   prometheus:
     image: prom/prometheus:v3.8.1
     container_name: kafka-dev-prometheus
@@ -17,6 +26,9 @@ services:
     image: grafana/loki:3.6.0
     container_name: kafka-dev-loki
     restart: unless-stopped
+    depends_on:
+      loki-init:
+        condition: service_completed_successfully
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
@@ -75,6 +87,7 @@ services:
   kafka-ui:
     image: provectuslabs/kafka-ui:v0.7.2
     container_name: kafka-dev-ui
+    profiles: ["kafka"]
     restart: unless-stopped
     ports:
       - "8080:8080"
