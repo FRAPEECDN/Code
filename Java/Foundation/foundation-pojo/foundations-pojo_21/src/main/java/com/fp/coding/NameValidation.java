@@ -1,10 +1,17 @@
 package com.fp.coding;
 
-import lombok.experimental.UtilityClass;
-
 /** Normalizes nonblank names for use in staff records. */
-@UtilityClass
-public class NameValidation {
+public final class NameValidation {
+    private NameValidation() {
+    }
+
+    /**
+     * Strips surrounding whitespace and rejects a missing or blank name.
+     *
+     * @param name candidate name
+     * @return normalized nonblank name
+     * @throws IllegalArgumentException if {@code name} is null or blank
+     */
     public static String normalize(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("name must not be blank");

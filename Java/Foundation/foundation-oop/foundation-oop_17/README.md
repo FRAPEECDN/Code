@@ -2,7 +2,9 @@
 
 Exercises and examples for object-oriented programming using Java 17.
 
-Includes enums, a validated POJO and record, sealed inheritance, generic bounds and wildcards, a department assignment model, and a UUID-identified serializable POJO. Start the section menu with `com.fp.coding.ExampleMenu`; standalone sections are `ModelExamples`, `EnumExamples`, `InheritanceExamples`, `GenericExamples`, `ObjectsOptionalExamples`, `DepartmentExamples`, `UuidPojoExamples`, `CollectionExamples`, and `CollectionEvolutionExamples`.
+Includes enums, a validated POJO and record, sealed inheritance, generic bounds and wildcards, checked and unchecked exception examples, try-with-resources, a department assignment model, and a UUID-identified serializable POJO. Start the section menu with `com.fp.coding.ExampleMenu`; standalone sections include `GenericExamples` and `ExceptionHandlingExamples` as well as `ModelExamples`, `EnumExamples`, `InheritanceExamples`, `ObjectsOptionalExamples`, `DepartmentExamples`, `UuidPojoExamples`, `CollectionExamples`, and `CollectionEvolutionExamples`.
+
+`GenericShowcase<T>` demonstrates a generic class, wildcard producers (`? extends T`), wildcard consumers (`? super T`), unbounded wildcards, and bounded generic methods. `ExceptionHandlingExamples` contrasts a checked `MissingNameException` with an unchecked `InvalidCapacityException`, propagates `IOException`, and uses try-with-resources to close a file reader on both success and failure. Choose section 10 for these exception examples; section 11 runs every section.
 
 `CollectionExamples` demonstrates common `List`, `Set`, and `Map` operations, sorting and linear/binary search, and sequential/parallel Stream pipelines using `UuidPojoInformation`.
 

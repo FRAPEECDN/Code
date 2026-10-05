@@ -25,6 +25,7 @@ public class FoundationExceptionsTest {
     @Test
     public void testResourcesAndExceptionCause() throws IOException {
         assertThat(exceptions.tryWithResources("text"), equalTo("text"));
+        assertThat(exceptions.tryWithResources("first\nsecond"), equalTo("first"));
         assertThat(exceptions.chainException().getCause().getMessage(), equalTo("Original failure"));
     }
 }

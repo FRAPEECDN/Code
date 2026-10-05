@@ -262,7 +262,7 @@ class FoundationalExamplesTest {
                 new Scanner("invalid\n2\n0\n"), new PrintStream(menuBytes, true, StandardCharsets.UTF_8)));
 
         String menuOutput = menuBytes.toString(StandardCharsets.UTF_8);
-        assertTrue(menuOutput.contains("Choose a section from 1 to 9"));
+        assertTrue(menuOutput.contains("Choose a section from 1 to 10"));
         assertTrue(menuOutput.contains("--- Enums ---"));
         assertTrue(menuOutput.contains("Exiting examples."));
         assertTrue(sectionOutput.contains("Data-bearing role enum"));
@@ -273,7 +273,7 @@ class FoundationalExamplesTest {
     void menuRunAllExecutesEveryRunnableSection() throws Exception {
         ByteArrayOutputStream menuBytes = new ByteArrayOutputStream();
         String examplesOutput = captureOutput(() -> ExampleMenu.runMenu(
-                new Scanner("10\n0\n"), new PrintStream(menuBytes, true, StandardCharsets.UTF_8)));
+                new Scanner("11\n0\n"), new PrintStream(menuBytes, true, StandardCharsets.UTF_8)));
 
         String menuOutput = menuBytes.toString(StandardCharsets.UTF_8);
         assertTrue(menuOutput.contains("--- POJO and record models ---"));
@@ -285,6 +285,7 @@ class FoundationalExamplesTest {
         assertTrue(menuOutput.contains("--- UUID, Comparable, Comparator, and serialization ---"));
         assertTrue(menuOutput.contains("--- List, Set, Map, searching, and streams ---"));
         assertTrue(menuOutput.contains("--- Java 25 stream Gatherers ---"));
+        assertTrue(menuOutput.contains("--- Checked/unchecked exceptions and try-with-resources ---"));
         assertTrue(examplesOutput.contains("POJO model:"));
         assertTrue(examplesOutput.contains("Data-bearing role enum:"));
         assertTrue(examplesOutput.contains("Manager{"));
@@ -294,6 +295,7 @@ class FoundationalExamplesTest {
         assertTrue(examplesOutput.contains("Serializable round trip preserves value: true"));
         assertTrue(examplesOutput.contains("Stream operations over Map values"));
         assertTrue(examplesOutput.contains("Gatherers.windowFixed(2)"));
+        assertTrue(examplesOutput.contains("Checked exception (caught): MissingNameException"));
     }
 
     @Test

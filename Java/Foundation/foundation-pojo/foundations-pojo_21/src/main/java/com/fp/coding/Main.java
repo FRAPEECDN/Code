@@ -1,6 +1,9 @@
 package com.fp.coding;
 
-/** Console entry point for managing departments, staff, projects, and assignments. */
+/**
+ * Console entry point for managing departments, staff, projects, and
+ * assignments in memory.
+ */
 public final class Main {
     private final ConsoleContext context = new ConsoleContext();
     private final DepartmentConsole departments = new DepartmentConsole(context);
@@ -10,6 +13,11 @@ public final class Main {
     private Main() {
     }
 
+    /**
+     * Starts an interactive session and discards its data when the process exits.
+     *
+     * @param args unused command-line arguments
+     */
     public static void main(String[] args) {
         new Main().run();
     }

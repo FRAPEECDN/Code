@@ -14,7 +14,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/** Project details and a date-ordered lifecycle history owned by a project owner. */
+/**
+ * Project details and a date-ordered lifecycle history owned by a project
+ * owner.
+ *
+ * <p>
+ * Construction starts the project in {@link ProjectStatus#REGISTERED}, records
+ * the registration date, and
+ * registers the project with its owner. Later changes must use
+ * {@link #transitionTo(ProjectStatus, LocalDate)} so
+ * the allowed transition graph and nondecreasing history dates remain
+ * consistent. Lombok generates value methods;
+ * the mutable status history is excluded from equality and string output.
+ */
 @Data
 @ToString
 @EqualsAndHashCode
@@ -32,34 +44,54 @@ public final class Project {
     @EqualsAndHashCode.Exclude
     private final Map<ProjectStatus, LocalDate> statusHistory;
 
+    /** @return the owner that registered this project */
     public ProjectOwner getProjectOwner() {
         return projectOwner;
     }
 
+    /** @return the normalized project name */
     public String getProjectName() {
         return projectName;
     }
 
+    /** @return the normalized sponsor name */
     public String getSponsor() {
         return sponsor;
     }
 
+    /** @return finite, nonnegative project budget */
     public double getBudget() {
         return budget;
     }
 
+    /** @return planned start date */
     public LocalDate getStartDate() {
         return startDate;
     }
 
+    /** @return deadline, which is on or after the start date */
     public LocalDate getDeadline() {
         return deadline;
     }
 
+    /** @return current lifecycle state */
     public synchronized ProjectStatus getStatus() {
         return status;
     }
 
+    /**
+     * Creates a registered project and registers it with its owner.
+     *
+     * @param projectOwner owner that receives this project
+     * @param projectName  nonblank name; surrounding whitespace is removed
+     * @param sponsor      nonblank sponsor; surrounding whitespace is removed
+     * @param budget       finite, nonnegative budget
+     * @param startDate    planned start date
+     * @param deadline     deadline on or after {@code startDate}
+     * @param registeredOn date the project entered {@link ProjectStatus#REGISTERED}
+     * @throws IllegalArgumentException if text, budget, or date ordering is invalid
+     * @throws NullPointerException     if a required reference is null
+     */
     @Builder
     public Project(
             ProjectOwner projectOwner,
@@ -88,12 +120,27 @@ public final class Project {
         projectOwner.registerProject(this);
     }
 
-    /** Returns an immutable snapshot of each lifecycle status and its transition date. */
+    /**
+     * Returns an immutable snapshot of lifecycle states and the dates they were
+     * reached.
+     *
+     * @return detached, unmodifiable status-to-date map
+     */
     public synchronized Map<ProjectStatus, LocalDate> getStatusHistory() {
         return Collections.unmodifiableMap(new EnumMap<>(statusHistory));
     }
 
-    /** Changes status only along an allowed transition and nondecreasing timeline. */
+    /**
+     * Changes status only along an allowed transition and nondecreasing timeline.
+     *
+     * @param nextStatus target lifecycle state
+     * @param reachedOn  date the target state was reached
+     * @throws IllegalStateException    if the current state cannot transition to
+     *                                  {@code nextStatus}
+     * @throws IllegalArgumentException if {@code reachedOn} precedes the current
+     *                                  status date
+     * @throws NullPointerException     if either argument is null
+     */
     public synchronized void transitionTo(ProjectStatus nextStatus, LocalDate reachedOn) {
         Objects.requireNonNull(nextStatus, "nextStatus");
         LocalDate transitionDate = Objects.requireNonNull(reachedOn, "reachedOn");
