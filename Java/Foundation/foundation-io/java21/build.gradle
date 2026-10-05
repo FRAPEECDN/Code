@@ -1,0 +1,9 @@
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = 'foundation.io.java21.Java21App'
+}

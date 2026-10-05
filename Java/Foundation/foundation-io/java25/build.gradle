@@ -1,0 +1,26 @@
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+application {
+    mainClass = 'foundation.io.java25.Java25App'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['--enable-preview']
+}
+
+tasks.withType(Test).configureEach {
+    jvmArgs '--enable-preview'
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs '--enable-preview'
+}
+
+tasks.withType(Javadoc).configureEach {
+    options.setSource('25')
+    options.addBooleanOption('-enable-preview', true)
+}

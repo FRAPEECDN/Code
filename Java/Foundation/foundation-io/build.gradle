@@ -1,0 +1,32 @@
+plugins {
+    id 'base'
+}
+
+subprojects {
+    apply plugin: 'application'
+
+    repositories {
+        mavenCentral()
+    }
+
+    sourceSets {
+        main.java.srcDir rootProject.file('shared/src/main/java')
+        test.java.srcDir rootProject.file('shared/src/test/java')
+    }
+
+    dependencies {
+        implementation libs.jackson.databind
+        implementation libs.java.websocket
+
+        testImplementation libs.junit.jupiter
+        testRuntimeOnly libs.junit.platform.launcher
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+tasks.named('build') {
+    dependsOn subprojects.collect { "${it.path}:build" }
+}
