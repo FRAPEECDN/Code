@@ -1,0 +1,37 @@
+plugins {
+    id 'base'
+}
+
+subprojects {
+    apply plugin: 'application'
+
+    repositories {
+        mavenCentral()
+    }
+
+    sourceSets {
+        main.java.srcDir rootProject.file('shared/src/main/java')
+        test.java.srcDir rootProject.file('shared/src/test/java')
+    }
+
+    dependencies {
+        implementation libs.mongodb.driver.sync
+
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+        testCompileOnly libs.lombok
+        testAnnotationProcessor libs.lombok
+
+        testImplementation libs.junit.jupiter
+        testImplementation libs.mongo.java.server
+        testRuntimeOnly libs.junit.platform.launcher
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+tasks.named('build') {
+    dependsOn subprojects.collect { "${it.path}:build" }
+}

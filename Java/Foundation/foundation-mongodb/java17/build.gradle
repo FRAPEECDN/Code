@@ -1,0 +1,9 @@
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+application {
+    mainClass = 'foundation.mongodb.App'
+}

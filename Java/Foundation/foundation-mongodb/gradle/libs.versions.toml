@@ -1,0 +1,13 @@
+[versions]
+junit-jupiter = "5.12.1"
+junit-platform = "1.12.1"
+lombok = "1.18.42"
+mongodb-driver = "5.5.1"
+mongo-java-server = "1.47.0"
+
+[libraries]
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync", version.ref = "mongodb-driver" }
+mongo-java-server = { module = "de.bwaldvogel:mongo-java-server", version.ref = "mongo-java-server" }
