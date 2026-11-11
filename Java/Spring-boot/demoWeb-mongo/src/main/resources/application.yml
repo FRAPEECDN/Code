@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: demoWeb-mongo
+
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017}
+    database: ${MONGODB_DATABASE:demo_web_mongo}
+
+server:
+  port: ${SERVER_PORT:8081}
