@@ -12,7 +12,7 @@ include Spring Security.
 - String API identifiers mapped to MongoDB ObjectIds
 - Request validation and consistent API error responses
 - OpenAPI documentation and Swagger UI
-- MockMvc and persistence integration tests against an in-memory MongoDB server
+- Unit, repository, MockMvc, and live HTTP integration tests for the API and MongoDB
 
 ## Technology
 
@@ -108,14 +108,22 @@ variables and defaults as the Maven launch command. Set `MONGODB_URI` or
 
 ## Tests
 
-Run the unit, MVC, and MongoDB persistence integration tests:
+Run unit, MVC-slice, validation, and repository tests. These use an in-memory
+MongoDB wire-protocol server and do not require Docker:
 
 ```powershell
 .\mvnw.cmd test
 ```
 
-The tests start an in-memory MongoDB wire-protocol server and do not require
-Docker or modify the data in your running MongoDB container.
+Run the full-context MockMvc and live HTTP tests against a temporary MongoDB
+8 container:
+
+```powershell
+.\mvnw.cmd verify
+```
+
+`verify` requires Docker. The integration tests create their own ephemeral
+database and do not use or modify the data in your running MongoDB container.
 
 ## Project layout
 
