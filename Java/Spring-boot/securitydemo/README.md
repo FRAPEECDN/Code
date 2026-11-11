@@ -47,7 +47,6 @@ securitydemo/
 │           ├── controller/
 │           └── integration/
 ├── .gitignore
-├── HELP.md (not present in this repo; see README instead)
 ├── pom.xml
 ├── mvnw
 ├── mvnw.cmd
