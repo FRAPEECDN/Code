@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: securityDemo-Totp
+
+springdoc:
+  swagger-ui:
+    csrf:
+      enabled: true

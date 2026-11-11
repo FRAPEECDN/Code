@@ -1,8 +1,0 @@
-spring:
-  application:
-    name: securitydemo
-
-springdoc:
-  swagger-ui:
-    csrf:
-      enabled: true

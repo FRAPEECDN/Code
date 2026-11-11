@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: securityDemo-BasicAuth
+
+springdoc:
+  swagger-ui:
+    csrf:
+      enabled: true

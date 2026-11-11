@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: demoWeb-Jdbc
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+server:
+  port: ${SERVER_PORT:8081}
