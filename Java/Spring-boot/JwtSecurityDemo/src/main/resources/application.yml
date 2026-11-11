@@ -1,0 +1,4 @@
+security:
+  jwt:
+    secret-key: 9d996a7381a1aeb50a82f556fb3dca70b00630a2c85403b64c0eddc0f86e3806
+    expiration-time: 3600000
