@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "name": "DemoMessage",
+  "namespace": "foundation.kafka.message",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "text", "type": "string" },
+    { "name": "createdAtEpochMillis", "type": "long" }
+  ]
+}

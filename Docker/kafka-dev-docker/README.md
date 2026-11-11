@@ -12,7 +12,7 @@ A small but realistic Apache Kafka environment for application development.
 - Kafka ACL authorization
 - The controller listener is plaintext on the private Docker network and is not published to the host
 - Separate `admin` and `dev` users
-- Consumer groups such as `dev-my-app`
+- Consumer groups beginning with `dev-`, such as `dev-my-app`
 - Persistent Docker volume
 - Automatic topic/user/ACL initialization
 - Admin SCRAM credentials seeded during first KRaft storage formatting
@@ -26,6 +26,12 @@ SCRAM-SHA-256 is used here because it exercises real authentication while keepin
 ```bash
 docker compose up -d
 docker compose logs -f kafka-init
+```
+
+If the Kafka data volume was initialized before the `dev-` consumer-group prefix ACL was added, rerun the initializer once:
+
+```bash
+docker compose run --rm kafka-init
 ```
 
 Check:

@@ -1,0 +1,13 @@
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+rootProject.name = 'foundation-kafka'
+include(
+    'producer-java17',
+    'consumer-java17',
+    'producer-java21',
+    'consumer-java21',
+    'producer-java25',
+    'consumer-java25'
+)

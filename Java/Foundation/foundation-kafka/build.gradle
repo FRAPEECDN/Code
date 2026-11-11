@@ -1,0 +1,66 @@
+plugins {
+    id 'base'
+}
+
+subprojects {
+    apply plugin: 'application'
+
+    repositories {
+        mavenCentral()
+    }
+
+    def parts = project.name.split('-')
+    def applicationType = parts[0]
+    def targetJavaVersion = Integer.parseInt(parts[1].substring('java'.length()))
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.release = targetJavaVersion
+    }
+
+    sourceSets {
+        main.java.srcDirs = [
+            rootProject.file("${applicationType}/src/main/java"),
+            rootProject.file('shared/src/main/java')
+        ]
+        test.java.srcDirs = [
+            rootProject.file("${applicationType}/src/test/java"),
+            rootProject.file('shared/src/test/java')
+        ]
+        main.resources.srcDir rootProject.file('shared/src/main/resources')
+        test.resources.srcDir rootProject.file('shared/src/test/resources')
+    }
+
+    dependencies {
+        implementation libs.kafka.clients
+        implementation libs.jackson.databind
+        implementation libs.avro
+        runtimeOnly libs.slf4j.simple
+        testImplementation libs.junit.jupiter
+        testRuntimeOnly libs.junit.platform.launcher
+    }
+
+    application {
+        mainClass = applicationType == 'producer'
+            ? 'foundation.kafka.producer.KafkaProducerApp'
+            : 'foundation.kafka.consumer.KafkaConsumerApp'
+        applicationDefaultJvmArgs = ['-Dorg.slf4j.simpleLogger.defaultLogLevel=warn']
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    tasks.withType(JavaExec).configureEach {
+        standardInput = System.in
+    }
+}
+
+tasks.named('build') {
+    dependsOn subprojects.collect { "${it.path}:build" }
+}

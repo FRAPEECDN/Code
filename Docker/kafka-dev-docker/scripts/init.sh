@@ -27,9 +27,12 @@ echo "Creating ACLs for dev user..."
 /opt/kafka/bin/kafka-acls.sh --bootstrap-server "$BOOTSTRAP" --command-config "$ADMIN" \
   --add --allow-principal User:dev --producer --topic dev-test
 
-# Consumer permissions on dev-test and the test consumer group prefix
+# Consumer permissions on dev-test and consumer groups starting with dev-
 /opt/kafka/bin/kafka-acls.sh --bootstrap-server "$BOOTSTRAP" --command-config "$ADMIN" \
-  --add --allow-principal User:dev --consumer --topic dev-test --group 'dev-*'
+  --add --allow-principal User:dev --operation READ --topic dev-test
+
+/opt/kafka/bin/kafka-acls.sh --bootstrap-server "$BOOTSTRAP" --command-config "$ADMIN" \
+  --add --allow-principal User:dev --operation READ --group 'dev-' --resource-pattern-type prefixed
 
 echo "Kafka dev environment ready."
 echo "Bootstrap: localhost:9094"
